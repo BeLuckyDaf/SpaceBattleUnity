@@ -27,7 +27,7 @@ namespace Managers
             }
             else
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 
