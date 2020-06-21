@@ -17,6 +17,10 @@ MonoBehaviour:
   - Custom
   - Example
   - General
+  - Login
+  - Play
   Categories:
   - {fileID: 11400000, guid: 40f9e81ff80114a47a3721228ba749ed, type: 2}
   - {fileID: 11400000, guid: 93d2fc2b22a5ef5488d7473e032d1287, type: 2}
+  - {fileID: 11400000, guid: 2d6e27a1f0a1e98469cab8de763a1f8a, type: 2}
+  - {fileID: 11400000, guid: 8fe6f2b08e8124e41acf16906287d0b6, type: 2}

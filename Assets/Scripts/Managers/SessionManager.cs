@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Doozy.Engine;
 using Nakama;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -12,20 +13,20 @@ namespace Managers
     /// </summary>
     public class SessionManager : MonoBehaviour
     {
-        [SerializeField] private ManagerContainer _managers;
         [SerializeField] private string _serverAddress;
         [SerializeField] private int _serverPort = 7350;
 
         private Client _client;
         private ISession _session;
-        private Socket _socket;
+        private ISocket _socket;
 
         /// <summary>
-        /// Initializes Nakama Client and checks that all components are intact.
+        /// Initializes the client.
         /// </summary>
         private void Start()
         {
             CreateClient();
+            CreateSocket();
         }
 
         /// <summary>
@@ -37,13 +38,12 @@ namespace Managers
         }
 
         /// <summary>
-        /// Creates a Nakama Client object instance
+        /// Creates a Nakama Client object instance.
         /// </summary>
-        public void CreateClient()
+        private void CreateClient()
         {
             _client = new Client("http", _serverAddress, _serverPort, "defaultkey");
             Debug.Log("Nakama client created.");
-            _managers.EventManager.OnSessionManagerReady.Invoke();
         }
 
         /// <summary>
@@ -52,18 +52,58 @@ namespace Managers
         /// </summary>
         /// <param name="email">Account email</param>
         /// <param name="password">Account password</param>
-        public async void LoginWithPassword(string email, string password)
+        public async void LoginEmail(string email, string password)
         {
-            _session = await _client.AuthenticateEmailAsync(email, password);
+            try
+            {
+                _session = await _client.AuthenticateEmailAsync(email, password);
+            }
+            catch (Exception exception)
+            {
+                Debug.Log($"Login unsuccessful, error: {exception.Message}");
+            }
+
             if (IsLoggedIn())
             {
-                Debug.Log($"Logged in as {_session.Username}.");
-                _managers.EventManager.OnSessionManagerLoggedIn.Invoke();
+                Debug.Log($"Logged in as {_session.Username}, session expires at {_session.ExpireTime}.");
+                GameEventMessage.SendEvent("UserLoggedIn");
+            }
+            else
+            {
+                GameEventMessage.SendEvent("UserBadLogin");
             }
         }
 
         /// <summary>
-        /// Checks if currently logged into an account
+        /// Creates client socket.
+        /// </summary>
+        private void CreateSocket()
+        {
+            _socket = _client.NewSocket();
+        }
+
+        /// <summary>
+        /// Log out and clean up the session manager.
+        /// </summary>
+        public async void LogOut()
+        {
+            if (_socket != null) await _socket.CloseAsync();
+            _socket = null;
+            _session = null;
+            GameEventMessage.SendEvent("UserLoggedOut");
+        }
+
+        /// <summary>
+        /// Checks if the session manager client is ready.
+        /// </summary>
+        /// <returns>true if logged in, false otherwise</returns>
+        public bool IsReady()
+        {
+            return _client != null;
+        }
+        
+        /// <summary>
+        /// Checks if currently logged into an account.
         /// </summary>
         /// <returns>true if logged in, false otherwise</returns>
         public bool IsLoggedIn()
