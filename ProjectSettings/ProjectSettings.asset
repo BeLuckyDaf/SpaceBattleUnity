@@ -675,10 +675,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 6aafc9b1-befa-4524-a6fd-7cdc74306231
+  cloudProjectId: 
   framebufferDepthMemorylessMode: 0
-  projectName: SpaceBattleUnity
-  organizationId: beluckydaftobedeleted
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
