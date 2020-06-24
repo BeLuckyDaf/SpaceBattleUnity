@@ -19,6 +19,12 @@ namespace Managers
             _socket = await ManagerContainer.Instance.SessionManager.CreateSocket();
         }
 
+        private async void OnDisable()
+        {
+            await ManagerContainer.Instance.SessionManager.CloseSocket(_socket);
+            _socket = null;
+        }
+
         public async Task<string> ListMatches()
         {
             if (_socket == null) return null;
