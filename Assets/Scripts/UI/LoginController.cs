@@ -36,7 +36,7 @@ namespace UI
         public void Logout()
         {
             Assert.IsNotNull(ManagerContainer.Instance);
-            ManagerContainer.Instance.SessionManager.LogOut();
+            GameEventMessage.SendEvent("UserLoggedOut");
         }
     }
 }

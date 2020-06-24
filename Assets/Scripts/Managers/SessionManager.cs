@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Doozy.Engine;
 using Nakama;
 using UnityEngine;
@@ -16,17 +17,17 @@ namespace Managers
         [SerializeField] private string _serverAddress;
         [SerializeField] private int _serverPort = 7350;
 
-        private Client _client;
-        private ISession _session;
         private ISocket _socket;
+
+        public Client Client { get; private set; }
+        public ISession Session { get; private set; }
 
         /// <summary>
         /// Initializes the client.
         /// </summary>
-        private void Start()
+        private async void Start()
         {
             CreateClient();
-            CreateSocket();
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Managers
         /// </summary>
         private void CreateClient()
         {
-            _client = new Client("http", _serverAddress, _serverPort, "defaultkey");
+            Client = new Client("http", _serverAddress, _serverPort, "defaultkey");
             Debug.Log("Nakama client created.");
         }
 
@@ -56,7 +57,7 @@ namespace Managers
         {
             try
             {
-                _session = await _client.AuthenticateEmailAsync(email, password);
+                Session = await Client.AuthenticateEmailAsync(email, password);
             }
             catch (Exception exception)
             {
@@ -65,7 +66,7 @@ namespace Managers
 
             if (IsLoggedIn())
             {
-                Debug.Log($"Logged in as {_session.Username}, session expires at {_session.ExpireTime}.");
+                Debug.Log($"Logged in as {Session.Username}, session expires at {Session.ExpireTime}.");
                 GameEventMessage.SendEvent("UserLoggedIn");
             }
             else
@@ -74,23 +75,38 @@ namespace Managers
             }
         }
 
-        /// <summary>
-        /// Creates client socket.
-        /// </summary>
-        private void CreateSocket()
+        public async void InitSocket()
         {
-            _socket = _client.NewSocket();
+            _socket = await CreateSocket();
         }
 
         /// <summary>
-        /// Log out and clean up the session manager.
+        /// Creates client socket.
         /// </summary>
-        public async void LogOut()
+        public async Task<ISocket> CreateSocket()
         {
-            if (_socket != null) await _socket.CloseAsync();
+            var socket = Client.NewSocket();
+            await socket.ConnectAsync(Session);
+            return socket;
+        }
+
+        /// <summary>
+        /// Closes a Nakama socket.
+        /// </summary>
+        /// <param name="socket">Socket to close.</param>
+        public async Task CloseSocket(ISocket socket)
+        {
+            if (socket != null) await socket.CloseAsync();
+        }
+
+        /// <summary>
+        /// Cleans up the session manager.
+        /// </summary>
+        public async void CleanUp()
+        {
+            await CloseSocket(_socket);
             _socket = null;
-            _session = null;
-            GameEventMessage.SendEvent("UserLoggedOut");
+            Session = null;
         }
 
         /// <summary>
@@ -99,7 +115,7 @@ namespace Managers
         /// <returns>true if logged in, false otherwise</returns>
         public bool IsReady()
         {
-            return _client != null;
+            return Client != null;
         }
         
         /// <summary>
@@ -108,7 +124,7 @@ namespace Managers
         /// <returns>true if logged in, false otherwise</returns>
         public bool IsLoggedIn()
         {
-            return _session != null && !_session.IsExpired;
+            return Session != null && !Session.IsExpired;
         }
     }
 }
