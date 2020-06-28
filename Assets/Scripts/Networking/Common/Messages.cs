@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Common
 {
     public struct PayloadResult
     {

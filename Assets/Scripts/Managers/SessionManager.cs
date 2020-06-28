@@ -75,6 +75,9 @@ namespace Managers
             }
         }
 
+        /// <summary>
+        /// Creates the local socket for session management.
+        /// </summary>
         public async void InitSocket()
         {
             _socket = await CreateSocket();

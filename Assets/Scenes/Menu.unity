@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -133,6 +133,49 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8504829916313880175}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &255085084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 255085086}
+  - component: {fileID: 255085085}
+  m_Layer: 0
+  m_Name: SB_World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &255085085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255085084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f7f6814bc04687a831ae09e40c0b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &255085086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255085084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 890.9125, y: 420.58322, z: -603.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &315664222
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +262,7 @@ MonoBehaviour:
   StartAlpha: 1
   CanvasName: MasterCanvas
   CustomCanvasName: 0
-  DontDestroyCanvasOnLoad: 1
+  DontDestroyCanvasOnLoad: 0
 --- !u!114 &334049665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,6 +1309,82 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6949db5e3e40e5f48b5f91716137e2f7, type: 3}
+--- !u!1 &8342674466809779706 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8342674465848564463, guid: 6949db5e3e40e5f48b5f91716137e2f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8342674466809779705}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8342674466809779707 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8342674465848564449, guid: 6949db5e3e40e5f48b5f91716137e2f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8342674466809779705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8342674466809779706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8342674466809779708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8342674466809779706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea9f92203d31e240bc110ff7b26d05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8342674466809779707}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Retrieving world data...
+          m_BoolArgument: 0
+        m_CallState: 2
+  GameEvent: MatchRetrievingWorld
+  ListenForAllGameEvents: 0
+--- !u!114 &8342674466809779709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8342674466809779706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea9f92203d31e240bc110ff7b26d05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8342674466809779707}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Retrieving match data...
+          m_BoolArgument: 0
+        m_CallState: 2
+  GameEvent: UserJoinedMatch
+  ListenForAllGameEvents: 0
 --- !u!1001 &8504829916313880175
 PrefabInstance:
   m_ObjectHideFlags: 0

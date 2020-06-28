@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Doozy.Engine;
 using Nakama;
+using Nakama.TinyJson;
+using Networking.Data;
 using UnityEngine;
 
 namespace Managers
@@ -13,7 +15,8 @@ namespace Managers
         private ISocket _socket;
 
         public IMatch CurrentMatch { get; private set; }
-
+        public List<MatchListEntry> MatchList { get; private set; }
+        
         public async void InitSocket()
         {
             _socket = await ManagerContainer.Instance.SessionManager.CreateSocket();
@@ -25,12 +28,13 @@ namespace Managers
             _socket = null;
         }
 
-        public async Task<string> ListMatches()
+        public async Task UpdateMatchList()
         {
-            if (_socket == null) return null;
+            if (_socket == null) return;
             var matches = (await _socket.RpcAsync("get_my_active_matches")).Payload;
-            Debug.Log($"MATCHES: {matches}");
-            return matches;
+            var matchList = matches.FromJson<List<MatchListEntry>>();
+            // TODO: check if parsing error occurred
+            MatchList = matchList;
         }
         
         public async Task<string> CreateMatch()

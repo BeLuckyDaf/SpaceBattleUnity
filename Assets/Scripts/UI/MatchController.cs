@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Managers;
+using Nakama.TinyJson;
+using Networking.Data;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace UI
 {   
@@ -13,7 +14,12 @@ namespace UI
         
         public async void ListMatches()
         {
-            await ManagerContainer.Instance.MatchManager.ListMatches();
+            await ManagerContainer.Instance.MatchManager.UpdateMatchList();
+            var matchList = ManagerContainer.Instance.MatchManager.MatchList;
+            foreach (var matchListEntry in matchList)
+            {
+                Debug.Log($"ID: {matchListEntry.match_id}, SERVER-AUTHORITATIVE: {matchListEntry.authoritative}");
+            }
         }
     
         public async void CreateQuickMatch()

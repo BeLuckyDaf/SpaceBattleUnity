@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Common
 {
-    public enum Commands
+    public enum ServerCommand
     {
         StateSnapshot         = 7,// server only
         PlayerJoined          = 8,// server only
