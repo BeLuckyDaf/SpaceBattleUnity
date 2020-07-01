@@ -2,9 +2,9 @@
 
 namespace Networking.Data
 {
-    public struct World
+    public struct MatchDataWorld
     {
         public int Size;
-        public Dictionary<int, WorldPoint> Points;
+        public Dictionary<string, MatchDataWorldPoint> Points;
     }
 }

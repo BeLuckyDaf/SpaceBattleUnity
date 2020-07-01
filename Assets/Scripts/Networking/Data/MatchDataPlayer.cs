@@ -1,6 +1,6 @@
 ﻿namespace Networking.Data
 {
-    public struct Player
+    public struct MatchDataPlayer
     {
         public string UID;
         public int Power;

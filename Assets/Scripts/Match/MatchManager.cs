@@ -8,53 +8,54 @@ using Nakama.TinyJson;
 using Networking.Data;
 using UnityEngine;
 
-namespace Managers
+namespace Global
 {
     public class MatchManager : MonoBehaviour
     {
-        private ISocket _socket;
+        public ISocket Socket { get; private set; }
 
         public IMatch CurrentMatch { get; private set; }
-        public List<MatchListEntry> MatchList { get; private set; }
+        public string MatchToJoin { get; set; }
+        public List<MatchDataListEntry> MatchList { get; private set; }
         
         public async void InitSocket()
         {
-            _socket = await ManagerContainer.Instance.SessionManager.CreateSocket();
+            Socket = await ManagerContainer.Instance.SessionManager.CreateSocket();
         }
 
         private async void OnDisable()
         {
-            await ManagerContainer.Instance.SessionManager.CloseSocket(_socket);
-            _socket = null;
+            await ManagerContainer.Instance.SessionManager.CloseSocket(Socket);
+            Socket = null;
         }
 
         public async Task UpdateMatchList()
         {
-            if (_socket == null) return;
-            var matches = (await _socket.RpcAsync("get_my_active_matches")).Payload;
-            var matchList = matches.FromJson<List<MatchListEntry>>();
+            if (Socket == null) return;
+            var matches = (await Socket.RpcAsync("get_my_active_matches")).Payload;
+            var matchList = matches.FromJson<List<MatchDataListEntry>>();
             // TODO: check if parsing error occurred
             MatchList = matchList;
         }
         
         public async Task<string> CreateMatch()
         {
-            if (_socket == null) return null;
+            if (Socket == null) return null;
             var username = ManagerContainer.Instance.SessionManager.Session.Username;
-            var matchId = (await _socket.RpcAsync("create_match_rpc", $"{{\"name\": \"{username}\"}}")).Payload;
+            var matchId = (await Socket.RpcAsync("create_match_rpc", $"{{\"name\": \"{username}\"}}")).Payload;
             Debug.Log($"MatchId Created: {matchId}");
             GameEventMessage.SendEvent("UserCreatedMatch");
             return matchId;
         }
         
-        public async Task<IMatch> JoinMatch(string matchId)
+        public async Task<IMatch> JoinMatch()
         {
-            if (_socket == null || CurrentMatch != null)
+            if (Socket == null || CurrentMatch != null)
             {
                 Debug.Log("Already joined a match.");
                 return null;
             }
-            CurrentMatch = (await _socket.JoinMatchAsync(matchId));
+            CurrentMatch = (await Socket.JoinMatchAsync(MatchToJoin));
             Debug.Log($"Match Joined: {CurrentMatch}");
             GameEventMessage.SendEvent("UserJoinedMatch");
             return CurrentMatch;

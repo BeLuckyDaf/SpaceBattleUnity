@@ -1,10 +1,10 @@
 ﻿namespace Networking.Data
 {
-    public struct WorldPoint
+    public struct MatchDataWorldPoint
     {
         public int LocType;
         public string OwnerUID;
-        public WorldPointPosition Position;
+        public MatchDataWorldPointPosition Position;
         public int[] Adjacent;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Networking.Data
 {
-    public struct MatchListEntry
+    public struct MatchDataListEntry
     {
         public string match_id;
         public bool authoritative;

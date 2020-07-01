@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Managers;
+using Global;
 using Match;
 using Nakama;
 using Networking.Common;
@@ -12,6 +12,20 @@ namespace Networking
     public class ServerCommandHandler : MonoBehaviour
     {
         [SerializeField] private WorldLoader _worldLoader;
+
+        private ISocket _socket; 
+        
+        private async void Start()
+        {
+            _socket = ManagerContainer.Instance.MatchManager.Socket;
+            _socket.ReceivedMatchState += OnReceivedMatchState;
+            await ManagerContainer.Instance.MatchManager.JoinMatch();
+        }
+
+        private void OnDestroy()
+        {
+            _socket.ReceivedMatchState -= OnReceivedMatchState;
+        }
 
         public void OnReceivedMatchState(IMatchState matchState)
         {

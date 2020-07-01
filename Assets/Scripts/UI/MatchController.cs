@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Managers;
+using Doozy.Engine;
+using Global;
 using Nakama.TinyJson;
 using Networking.Data;
 using TMPro;
@@ -28,9 +29,10 @@ namespace UI
             _matchNameField.text = matchId;
         }
     
-        public async void JoinQuickMatch()
+        public void JoinQuickMatch()
         {
-            await ManagerContainer.Instance.MatchManager.JoinMatch(_matchNameField.text);
+            ManagerContainer.Instance.MatchManager.MatchToJoin = _matchNameField.text;
+            GameEventMessage.SendEvent("MatchReadyToJoin");
         }
     }
 }

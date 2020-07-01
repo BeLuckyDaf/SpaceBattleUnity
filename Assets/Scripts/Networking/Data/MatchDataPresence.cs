@@ -1,6 +1,6 @@
 ﻿namespace Networking.Data
 {
-    public struct Presence
+    public struct MatchDataPresence
     {
         public string Node;
         public string UserID;

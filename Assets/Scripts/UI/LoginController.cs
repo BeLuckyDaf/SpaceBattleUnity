@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Doozy.Engine;
-using Managers;
+using Global;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;

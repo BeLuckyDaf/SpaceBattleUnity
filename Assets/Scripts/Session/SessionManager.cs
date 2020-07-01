@@ -7,7 +7,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Managers
+namespace Session
 {
     /// <summary>
     /// Manipulates and maintains current Nakama session.

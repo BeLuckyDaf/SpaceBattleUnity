@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Session;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Managers
+namespace Global
 {
     /// <summary>
     /// Makes all managers globally accessible.
